@@ -46,6 +46,7 @@ const RoutesPage = () => {
         <Routes>
           <Route path="/" element={<PrivetRoutes />}>
             <Route path="/" element={<Home />} />
+            <Route path="/home" element={<Home />} />
             <Route path="/movies" element={<MoviesPage />} />
             <Route path="/scard/:page/:id" element={<Singelcard />} />
             <Route path="/cripto" element={<Cryptoomain />} />

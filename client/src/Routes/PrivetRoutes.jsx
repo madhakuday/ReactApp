@@ -24,7 +24,8 @@ const PrivetRoutes = ({ component: Component, ...restOfProps }) => {
           <Outlet />
         </>
       ) : (
-        <Navigate to="/login" state={{ from: location }} replace={true} />
+        <Navigate to="/login" replace={true} />
+        //state={{ from: location }}
       )}
     </div>
   );

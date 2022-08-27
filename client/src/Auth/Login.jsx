@@ -6,6 +6,8 @@ import { Navigate } from "react-router";
 
 import "./login.css";
 import withRouter from "../Hooks/WithRouter";
+import store from "../Redux/store";
+import { login } from "../Redux/UserClice";
 
 export class Login extends Component {
   constructor(props) {
@@ -14,6 +16,7 @@ export class Login extends Component {
       redirect: false,
     };
     this.onFinish = this.onFinish.bind(this);
+    // console.log("navigate is ", this.props.navigate());
   }
   onFinish(values) {
     const { username, email, password } = values;
@@ -27,8 +30,14 @@ export class Login extends Component {
       .then((data) => {
         if (data.status === 200) {
           message.success("Done");
-          this.setState({ redirect: true });
           localStorage.setItem("registerdata", data.data.token);
+          store.dispatch(
+            login({
+              userData: null,
+              isAuth: true,
+            })
+          );
+          this.props.navigate("/");
         }
       })
       .catch((err) => {
@@ -40,18 +49,7 @@ export class Login extends Component {
     message.error("fullfield all field");
   }
 
-  // componentDidMount() {
-  //   const checklogin = localStorage.getItem("registerdata");
-  //   if (checklogin) {
-  //     this.setState({ redirect: true });
-  //   }
-  // }
   render() {
-    const { redirect } = this.state;
-    if (redirect) {
-      return <Navigate to="/" replace state={this.props.location} />;
-    }
-
     return (
       <>
         <Container>
