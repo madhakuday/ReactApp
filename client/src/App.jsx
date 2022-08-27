@@ -15,20 +15,27 @@ export class App extends Component {
 
   UserLoginData() {
     const getlocaldata = localStorage.getItem("registerdata");
-    let data = jwt_decode(getlocaldata);
-
-    if (data.username) {
-      store.dispatch(
-        login({
-          userData: data,
-          isAuth: true,
-        })
-      );
-    } else {
+    if (getlocaldata === null || undefined) {
       login({
         userData: null,
         isAuth: false,
       });
+    } else {
+      let data = jwt_decode(getlocaldata);
+
+      if (data.username) {
+        store.dispatch(
+          login({
+            userData: data,
+            isAuth: true,
+          })
+        );
+      } else {
+        login({
+          userData: null,
+          isAuth: false,
+        });
+      }
     }
   }
 
