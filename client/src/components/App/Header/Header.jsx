@@ -47,7 +47,9 @@ export class Header extends Component {
   }
 
   componentDidMount() {
-    console.log("Data is ", this.state.isLogedin.isAuth);
+    this.getCurrentStateFromStore();
+
+    console.log("Render call");
   }
 
   render() {

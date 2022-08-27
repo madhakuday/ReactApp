@@ -5,6 +5,7 @@ import axios from "axios";
 import { Navigate } from "react-router";
 
 import "./login.css";
+import withRouter from "../Hooks/WithRouter";
 
 export class Login extends Component {
   constructor(props) {
@@ -26,8 +27,8 @@ export class Login extends Component {
       .then((data) => {
         if (data.status === 200) {
           message.success("Done");
-          localStorage.setItem("registerdata", data.data.token);
           this.setState({ redirect: true });
+          localStorage.setItem("registerdata", data.data.token);
         }
       })
       .catch((err) => {
@@ -39,16 +40,16 @@ export class Login extends Component {
     message.error("fullfield all field");
   }
 
-  componentDidMount() {
-    const checklogin = localStorage.getItem("registerdata");
-    if (checklogin) {
-      this.setState({ redirect: true });
-    }
-  }
+  // componentDidMount() {
+  //   const checklogin = localStorage.getItem("registerdata");
+  //   if (checklogin) {
+  //     this.setState({ redirect: true });
+  //   }
+  // }
   render() {
     const { redirect } = this.state;
     if (redirect) {
-      return <Navigate to="/" replace={true} />;
+      return <Navigate to="/" replace state={this.props.location} />;
     }
 
     return (
@@ -128,4 +129,4 @@ export class Login extends Component {
   }
 }
 
-export default Login;
+export default withRouter(Login);

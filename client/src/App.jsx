@@ -9,17 +9,17 @@ import store from "./Redux/store";
 export class App extends Component {
   constructor(props) {
     super(props);
-
-    this.UserLoginData();
   }
 
   UserLoginData() {
     const getlocaldata = localStorage.getItem("registerdata");
-    if (getlocaldata === null || undefined) {
-      login({
-        userData: null,
-        isAuth: false,
-      });
+    if (getlocaldata == null || undefined) {
+      store.dispatch(
+        login({
+          userData: null,
+          isAuth: false,
+        })
+      );
     } else {
       let data = jwt_decode(getlocaldata);
 
@@ -41,6 +41,8 @@ export class App extends Component {
 
   componentDidMount() {}
   render() {
+    this.UserLoginData();
+
     return (
       <>
         <BrowserRouter>

@@ -1,5 +1,5 @@
-import React, { Suspense } from "react";
-import { Route, Routes } from "react-router";
+import React, { Suspense, useEffect } from "react";
+import { Navigate, Route, Routes } from "react-router";
 
 /* Components */
 // import Home from "../pages/Main";
@@ -11,6 +11,7 @@ import { Route, Routes } from "react-router";
 // import Singelcrypto from "../components/Cryptopage/Singelcrypto";
 
 import Loading from "../components/App/LoadingPage/Loading";
+import store from "../Redux/store";
 
 const Home = React.lazy(() => import("../pages/Main"));
 const Register = React.lazy(() => import("../Auth/Register"));
@@ -28,6 +29,17 @@ const Singelcard = React.lazy(() =>
 );
 
 const RoutesPage = () => {
+  const getCurrentStateFromStore = () => {
+    return {
+      User: store.getState().user.user,
+    };
+  };
+  let data = getCurrentStateFromStore();
+
+  useEffect(() => {
+    data = getCurrentStateFromStore();
+  }, [data]);
+
   return (
     <>
       <Suspense fallback={<Loading val={true} />}>
@@ -39,8 +51,14 @@ const RoutesPage = () => {
             <Route path="/cripto" element={<Cryptoomain />} />
             <Route path="/cripto/:id" element={<Singelcrypto />} />
           </Route>
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
+          {data.User.isAuth ? (
+            "Error"
+          ) : (
+            <>
+              <Route path="/register" element={<Register />} />
+              <Route path="/login" element={<Login />} />
+            </>
+          )}
         </Routes>
       </Suspense>
     </>
